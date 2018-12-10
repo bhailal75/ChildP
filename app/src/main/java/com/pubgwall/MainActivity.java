@@ -1,5 +1,6 @@
 package com.pubgwall;
 
+import android.app.WallpaperManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,10 +14,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ImageAdapter.HomeClickListner {
 
     private RecyclerView mRecyclerView;
     private ImageAdapter mAdapter;
@@ -31,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
         mRecyclerView = findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
 
         uploadList = new ArrayList<>();
 
@@ -44,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                     Upload upload = postSnapshot.getValue(Upload.class);
                     uploadList.add(upload);
                 }
-                mAdapter = new ImageAdapter(MainActivity.this,uploadList);
+                mAdapter = new ImageAdapter(MainActivity.this,uploadList,MainActivity.this);
                 mRecyclerView.setAdapter(mAdapter);
             }
 
@@ -55,5 +57,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    @Override
+    public void onHomeClick(int pos) {
+        if (uploadList != null && uploadList.size() > 0){
+
+        }
     }
 }
